@@ -1,7 +1,7 @@
 %global _with_restricted 1
 
 Name:           idjc
-Version:        0.8.15
+Version:        0.8.16
 Release:        1%{?dist}
 Summary:        DJ application for streaming audio
 
@@ -22,7 +22,7 @@ BuildRequires:  speex-devel
 BuildRequires:  flac-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  glib2-devel
-BuildRequires:  libshout-idjc-devel
+BuildRequires:  libshout-idjc-devel >= 2.4.1
 
 %if 0%{?_with_restricted}
 BuildRequires:	libmad-devel
@@ -85,6 +85,8 @@ make
 make install DESTDIR=%{buildroot}
 sed -i 's|#! /usr/bin/python22.7|#! /usr/bin/python2|' %{buildroot}/usr/bin/idjc
 
+%find_lang %{name}
+
 %post
 
 if [ ! -f %{_libdir}/libmp3lame.so ]; then
@@ -100,7 +102,7 @@ fi
 rm -rf %{buildroot}
 
 
-%files 
+%files -f %{name}.lang
 %{_bindir}/idjc
 %{python2_sitelib}/idjcmonitor.py
 %{python2_sitelib}/idjcmonitor.pyc
@@ -109,8 +111,6 @@ rm -rf %{buildroot}
 %{_datadir}/applications/idjc.desktop
 %{_docdir}/%{name}-%{version}/
 %{_datadir}/idjc/
-%{_datadir}/locale/fr/LC_MESSAGES/idjc.mo
-%{_datadir}/locale/it/LC_MESSAGES/idjc.mo
 %{_mandir}/man1/idjc-auto.1.gz
 %{_mandir}/man1/idjc-ls.1.gz
 %{_mandir}/man1/idjc-new.1.gz
@@ -122,6 +122,9 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/idjc.appdata.xml
 
 %changelog
+
+* Thu Jun 30 2016 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.8.16-1
+- Updated to 0.8.16
 
 * Wed Sep 09 2015 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.8.15-1
 - Updated to 0.8.15
