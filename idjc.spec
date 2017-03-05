@@ -28,7 +28,7 @@ BuildRequires:  libshout-idjc-devel >= 2.4.1
 BuildRequires:	libmad-devel
 BuildRequires:	twolame-devel
 BuildRequires:	lame-devel
-BuildRequires:	libmpg123-devel
+BuildRequires:	mpg123-devel
 BuildRequires:	ffmpeg-devel
 BuildRequires:	opus-devel
 %endif
@@ -44,7 +44,7 @@ Requires:	lame
 Requires:	lame-libs
 Requires:	twolame
 Requires:	libmad
-Requires:	libmpg123
+Requires:	mpg123-libs
 Requires:	opus
 %endif
 
