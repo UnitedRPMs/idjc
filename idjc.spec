@@ -123,7 +123,7 @@ rm -rf %{buildroot}
 
 %changelog
 
-* Sat Mar 18 2016 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.8.16-3
+* Sat Mar 18 2017 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.8.16-3
 - Rebuilt for libbluray
 
 * Thu Jun 30 2016 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.8.16-1
