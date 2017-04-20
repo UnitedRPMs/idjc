@@ -2,7 +2,7 @@
 
 Name:           idjc
 Version:        0.8.16
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -122,6 +122,9 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/idjc.appdata.xml
 
 %changelog
+
+* Tue Apr 18 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.16-4  
+- Automatic Mass Rebuild
 
 * Sat Mar 18 2017 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.8.16-3
 - Rebuilt for libbluray
