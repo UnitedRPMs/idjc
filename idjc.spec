@@ -2,7 +2,7 @@
 
 Name:           idjc
 Version:        0.8.16
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -33,6 +33,7 @@ BuildRequires:	ffmpeg-devel
 BuildRequires:	opus-devel
 %endif
 
+Requires:       dbus-python
 Requires:       python-mutagen
 Requires:       pulseaudio-module-jack
 Requires:	alsa-plugins-jack 
@@ -122,6 +123,9 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/idjc.appdata.xml
 
 %changelog
+
+* Sun May 07 2017 Francisco de la Peña <fran AT fran DOT cr> 0.8.16-5
+- Add dbus-python dependency
 
 * Tue Apr 18 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.16-4  
 - Automatic Mass Rebuild
