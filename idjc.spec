@@ -2,7 +2,7 @@
 
 Name:           idjc
 Version:        0.8.16
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -12,7 +12,7 @@ Source0:        http://downloads.sourceforge.net/project/idjc/idjc/0.8/%{name}-%
 
 BuildRequires:  pygtk2-devel
 BuildRequires:  python-devel
-BuildRequires:	python-setuptools
+BuildRequires:  python-setuptools
 BuildRequires:  python-mutagen
 BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  libvorbis-devel
@@ -23,35 +23,35 @@ BuildRequires:  flac-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  glib2-devel
 BuildRequires:  libshout-idjc-devel >= 2.4.1
+BuildRequires:  libmad-devel
+BuildRequires:  twolame-devel
+BuildRequires:  lame-devel
+BuildRequires:  mpg123-devel
+BuildRequires:  opus-devel
 
 %if 0%{?_with_restricted}
-BuildRequires:	libmad-devel
-BuildRequires:	twolame-devel
-BuildRequires:	lame-devel
-BuildRequires:	mpg123-devel
-BuildRequires:	ffmpeg-devel
-BuildRequires:	opus-devel
+BuildRequires:  ffmpeg-devel
 %endif
 
+Requires:       pygtk2
 Requires:       dbus-python
 Requires:       python-mutagen
 Requires:       pulseaudio-module-jack
-Requires:	alsa-plugins-jack 
-Requires:	qjackctl 
+Requires:       alsa-plugins-jack
+Requires:       qjackctl
+Requires:       lame
+Requires:       lame-libs
+Requires:       twolame
+Requires:       libmad
+Requires:       mpg123-libs
+Requires:       opus
+Requires:       flac
+Requires:       MySQL-python
+Requires:       libshout-idjc
 
 %if 0%{?_with_restricted}
-Requires:	ffmpeg
-Requires:	lame 
-Requires:	lame-libs
-Requires:	twolame
-Requires:	libmad
-Requires:	mpg123-libs
-Requires:	opus
+Requires:       ffmpeg
 %endif
-
-Requires:	flac
-Requires:	MySQL-python
-Requires:	libshout-idjc
 
 
 %description
@@ -66,25 +66,24 @@ major free audio codecs.
 
 
 %build
-./configure  \
-    --prefix=/usr  \
+./configure \
+    --prefix=/usr \
     --libdir=%{_libdir} \
-%if 0%{?_with_restricted}
-    --enable-libav \
     --enable-lame \
     --enable-mpg123 \
     --enable-twolame \
-    --enable-opus  \
+    --enable-opus \
+    --enable-speex \
+    --enable-flac \
+%if 0%{?_with_restricted}
+    --enable-libav
 %endif
-    --enable-speex  \
-    --enable-flac  
-make 
+make
 
 
 %install
 
 make install DESTDIR=%{buildroot}
-sed -i 's|#! /usr/bin/python22.7|#! /usr/bin/python2|' %{buildroot}/usr/bin/idjc
 
 %find_lang %{name}
 
@@ -124,10 +123,15 @@ rm -rf %{buildroot}
 
 %changelog
 
+* Sun Jul 24 2017 Francisco de la Peña <fran AT fran DOT cr> 0.8.16-6
+- Add pygtk2 dependency
+- Remove MP3 dependencies from restricted
+- Remove obsolete sed call
+
 * Sun May 07 2017 Francisco de la Peña <fran AT fran DOT cr> 0.8.16-5
 - Add dbus-python dependency
 
-* Tue Apr 18 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.16-4  
+* Tue Apr 18 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.16-4
 - Automatic Mass Rebuild
 
 * Sat Mar 18 2017 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.8.16-3
