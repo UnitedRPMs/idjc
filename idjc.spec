@@ -2,7 +2,7 @@
 
 Name:           idjc
 Version:        0.8.16
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -122,6 +122,9 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/idjc.appdata.xml
 
 %changelog
+
+* Wed Oct 18 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.16-7  
+- Automatic Mass Rebuild
 
 * Sun Jul 24 2017 Francisco de la Peña <fran AT fran DOT cr> 0.8.16-6
 - Add pygtk2 dependency
