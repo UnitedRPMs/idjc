@@ -4,7 +4,7 @@
  
 Summary:        DJ application for streaming audio
  
-Version:        0.8.16
+Version:        0.8.17
  
 License:        GPLv2+
  
