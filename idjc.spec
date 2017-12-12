@@ -1,14 +1,14 @@
 %global _with_restricted 1
 
 Name:           idjc
-Version:        0.8.16
-Release:        7%{?dist}
+Version:        0.8.17
+Release:        1%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
 License:        GPLv2+
 URL:            http://idjc.sourceforge.net
-Source0:        http://downloads.sourceforge.net/project/idjc/idjc/0.8/%{name}-%{version}.tar.gz
+Source0:        http://downloads.sourceforge.net/project/idjc/%{name}-%{version}.tar.gz
 
 BuildRequires:  pygtk2-devel
 BuildRequires:  python-devel
@@ -122,6 +122,9 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/idjc.appdata.xml
 
 %changelog
+
+* Mon Dec 11 2017 Francisco de la Peña <fran AT fran DOT cr> 0.8.17-1
+- Updated to 0.8.17
 
 * Wed Oct 18 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.16-7  
 - Automatic Mass Rebuild
