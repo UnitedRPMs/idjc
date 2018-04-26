@@ -2,7 +2,7 @@
 
 Name:           idjc
 Version:        0.8.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -30,7 +30,7 @@ BuildRequires:  mpg123-devel
 BuildRequires:  opus-devel
 
 %if 0%{?_with_restricted}
-BuildRequires:  ffmpeg-devel
+BuildRequires:  ffmpeg-devel >= 4.0
 %endif
 
 Requires:       pygtk2
@@ -122,6 +122,9 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/idjc.appdata.xml
 
 %changelog
+
+* Thu Apr 26 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-2  
+- Automatic Mass Rebuild
 
 * Mon Dec 11 2017 Francisco de la Peña <fran AT fran DOT cr> 0.8.17-1
 - Updated to 0.8.17
