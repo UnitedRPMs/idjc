@@ -2,7 +2,7 @@
 
 Name:           idjc
 Version:        0.8.17
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -11,9 +11,9 @@ URL:            http://idjc.sourceforge.net
 Source0:        http://downloads.sourceforge.net/project/idjc/%{name}-%{version}.tar.gz
 
 BuildRequires:  pygtk2-devel
-BuildRequires:  python-devel
-BuildRequires:  python-setuptools
-BuildRequires:  python-mutagen
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-mutagen
 BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  libvorbis-devel
 BuildRequires:  libsamplerate-devel
@@ -22,12 +22,13 @@ BuildRequires:  speex-devel
 BuildRequires:  flac-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  glib2-devel
-BuildRequires:  libshout-idjc-devel >= 2.4.1
+BuildRequires:  libshout-idjc-devel >= 2.4.3
 BuildRequires:  libmad-devel
 BuildRequires:  twolame-devel
 BuildRequires:  lame-devel
 BuildRequires:  mpg123-devel
 BuildRequires:  opus-devel
+BuildRequires:	gcc-c++
 
 %if 0%{?_with_restricted}
 BuildRequires:  ffmpeg-devel >= 4.0
@@ -35,7 +36,7 @@ BuildRequires:  ffmpeg-devel >= 4.0
 
 Requires:       pygtk2
 Requires:       dbus-python
-Requires:       python-mutagen
+Requires:       python2-mutagen
 Requires:       pulseaudio-module-jack
 Requires:       alsa-plugins-jack
 Requires:       qjackctl
@@ -62,10 +63,13 @@ major free audio codecs.
 
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -n %{name}-%{version}
 
+sed -i 's|PYTHON=python|PYTHON=python2|g' py-compile
 
 %build
+
+export PYTHON=/usr/bin/python2
 ./configure \
     --prefix=/usr \
     --libdir=%{_libdir} \
@@ -123,6 +127,9 @@ rm -rf %{buildroot}
 
 %changelog
 
+* Thu Sep 13 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-4  
+- Rebuilt for libshout-idjc
+
 * Thu Apr 26 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-2  
 - Automatic Mass Rebuild
 
@@ -132,7 +139,7 @@ rm -rf %{buildroot}
 * Wed Oct 18 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.16-7  
 - Automatic Mass Rebuild
 
-* Sun Jul 24 2017 Francisco de la Peña <fran AT fran DOT cr> 0.8.16-6
+* Mon Jul 24 2017 Francisco de la Peña <fran AT fran DOT cr> 0.8.16-6
 - Add pygtk2 dependency
 - Remove MP3 dependencies from restricted
 - Remove obsolete sed call
