@@ -2,7 +2,7 @@
 
 Name:           idjc
 Version:        0.8.17
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -126,6 +126,9 @@ rm -rf %{buildroot}
 %{_datadir}/appdata/idjc.appdata.xml
 
 %changelog
+
+* Sat Sep 15 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-5  
+- Automatic Mass Rebuild
 
 * Thu Sep 13 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-4  
 - Rebuilt for libshout-idjc
