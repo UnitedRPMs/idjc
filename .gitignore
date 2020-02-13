@@ -3,4 +3,6 @@ BUILDROOT/*
 RPMS/*
 SPECS/*
 SRPMS/*
-idjc*.tar.gz
+*.tar.gz
+*.rpm
+.directory

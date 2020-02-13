@@ -1,8 +1,25 @@
+#
+# spec file for package idjc
+#
+# Copyright (c) 2020 UnitedRPMs.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+# Please submit bugfixes or comments via https://goo.gl/zqFJft
+#
+
 %global _with_restricted 1
 
 Name:           idjc
 Version:        0.8.17
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -13,7 +30,6 @@ Source0:        http://downloads.sourceforge.net/project/idjc/%{name}-%{version}
 BuildRequires:  pygtk2-devel
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
-BuildRequires:  python2-mutagen
 BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  libvorbis-devel
 BuildRequires:  libsamplerate-devel
@@ -29,6 +45,11 @@ BuildRequires:  lame-devel
 BuildRequires:  mpg123-devel
 BuildRequires:  opus-devel
 BuildRequires:	gcc-c++
+BuildRequires:	python2-rpm-macros
+%if 0%{?fedora} >= 32
+BuildRequires:	python2-pip
+BuildRequires:	git
+%endif
 
 %if 0%{?_with_restricted}
 BuildRequires:  ffmpeg-devel >= 4.1
@@ -36,7 +57,9 @@ BuildRequires:  ffmpeg-devel >= 4.1
 
 Requires:       pygtk2
 Requires:       dbus-python
+%if 0%{?fedora} <= 31
 Requires:       python2-mutagen
+%endif
 Requires:       pulseaudio-module-jack
 Requires:       alsa-plugins-jack
 Requires:       qjackctl
@@ -69,6 +92,8 @@ sed -i 's|PYTHON=python|PYTHON=python2|g' py-compile
 
 %build
 
+find -depth -type f -writable -name "*.py" -exec sed -iE '1s=^#! */usr/bin/\(python\|env python\)[23]\?=#!%{__python2}=' {} +
+
 export PYTHON=/usr/bin/python2
 ./configure \
     --prefix=/usr \
@@ -90,6 +115,11 @@ make
 make install DESTDIR=%{buildroot}
 
 %find_lang %{name}
+
+python2 -m pip install --user 'mutagen==1.43.0' 
+pushd $HOME
+cp -rf .local/lib/python2.7/site-packages/* %{buildroot}/%{python2_sitelib}/
+popd
 
 %post
 
@@ -125,7 +155,16 @@ rm -rf %{buildroot}
 %{_datadir}/pixmaps/idjc.png
 %{_datadir}/appdata/idjc.appdata.xml
 
+%if 0%{?fedora} >= 32
+%{python2_sitelib}/mutagen-1.43.0.dist-info/
+%{python2_sitelib}/mutagen/
+%endif
+
 %changelog
+
+* Tue Feb 11 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-7 
+- Rebuilt for ffmpeg
+- pypi mutagen for deprecation of python2
 
 * Thu Dec 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-6  
 - Rebuilt for ffmpeg
