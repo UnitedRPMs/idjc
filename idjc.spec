@@ -116,10 +116,13 @@ make install DESTDIR=%{buildroot}
 
 %find_lang %{name}
 
+
+%if 0%{?fedora} >= 32
 python2 -m pip install --user 'mutagen==1.43.0' 
 pushd $HOME
 cp -rf .local/lib/python2.7/site-packages/* %{buildroot}/%{python2_sitelib}/
 popd
+%endif
 
 %post
 
