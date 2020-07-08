@@ -19,7 +19,7 @@
 
 Name:           idjc
 Version:        0.8.17
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
@@ -52,7 +52,7 @@ BuildRequires:	git
 %endif
 
 %if 0%{?_with_restricted}
-BuildRequires:  ffmpeg-devel >= 4.1
+BuildRequires:  ffmpeg-devel >= 4.3
 %endif
 
 Requires:       pygtk2
@@ -164,6 +164,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+
+* Tue Jun 23 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-8 
+- Rebuilt for ffmpeg
 
 * Tue Feb 11 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.8.17-7 
 - Rebuilt for ffmpeg
