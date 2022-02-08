@@ -1,7 +1,7 @@
 #
 # spec file for package idjc
 #
-# Copyright (c) 2021 UnitedRPMs.
+# Copyright (c) 2022 UnitedRPMs.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -15,17 +15,21 @@
 # Please submit bugfixes or comments via https://goo.gl/zqFJft
 #
 
-%global _with_restricted 1
+%global _with_restricted 0
+
+%global commit0 c4cd982881192d6143122a09616f3a3e4294b573
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global gver .git%{shortcommit0}
 
 Name:           idjc
-Version:        0.9.0
-Release:        7%{?dist}
+Version:        0.9.3
+Release:        1%{?dist}
 Summary:        DJ application for streaming audio
 
 Group:          Applications/Multimedia
 License:        GPLv2+
 URL:            http://idjc.sourceforge.net
-Source0:        http://downloads.sourceforge.net/project/idjc/%{name}-%{version}.tar.gz
+Source0:        https://sourceforge.net/code-snapshots/git/i/id/idjc/code.git/idjc-code-%{commit0}.zip#/%{name}-%{shortcommit0}.tar.gz
 
 BuildRequires:  pygtk2-devel
 BuildRequires:  python3-devel
@@ -44,11 +48,11 @@ BuildRequires:  twolame-devel
 BuildRequires:  lame-devel
 BuildRequires:  mpg123-devel
 BuildRequires:  opus-devel
-BuildRequires:	gcc-c++
+BuildRequires:	gcc-c++ autoconf libtool gettext-devel ImageMagick make
 BuildRequires:	git
 
 %if 0%{?_with_restricted}
-BuildRequires:  ffmpeg-devel >= 4.3
+BuildRequires:  ffmpeg4-devel 
 %endif
 
 Requires:       pygtk2
@@ -56,7 +60,6 @@ Requires:       python3-dbus
 Requires:       python3-mutagen
 
 Requires:       pulseaudio-module-jack
-Requires:       alsa-plugins-jack
 Requires:       qjackctl
 Requires:       lame
 Requires:       lame-libs
@@ -65,13 +68,8 @@ Requires:       libmad
 Requires:       mpg123-libs
 Requires:       opus
 Requires:       flac
-Requires:       MySQL-python
+#Requires:       MySQL-python
 Requires:       libshout-idjc
-
-%if 0%{?_with_restricted}
-Requires:       ffmpeg
-%endif
-
 
 %description
 Internet DJ Console is a client for streaming live radio shows over the
@@ -81,33 +79,35 @@ major free audio codecs.
 
 
 %prep
-%setup -n %{name}-%{version}
-
-sed -i 's|PYTHON=python|PYTHON=python3|g' py-compile
+%autosetup -n idjc-code-%{commit0} -p1
 
 %build
 
+./bootstrap
+
 find -depth -type f -writable -name "*.py" -exec sed -iE '1s=^#! */usr/bin/\(python\|env python\)[23]\?=#!%{__python3}=' {} +
 
-export PYTHON=/usr/bin/python3
-./configure \
-    --prefix=/usr \
-    --libdir=%{_libdir} \
+export PYTHON=/usr/bin/python%{python3_version}
+sed -i "s|PYTHON=python|PYTHON=python%{python3_version}|g" py-compile
+
+%configure \
     --enable-lame \
     --enable-mpg123 \
     --enable-twolame \
     --enable-opus \
     --enable-speex \
     --enable-flac \
+    --disable-static \
 %if 0%{?_with_restricted}
     --enable-libav
 %endif
-make
+
+%make_build
 
 
 %install
 
-make install DESTDIR=%{buildroot}
+%make_install
 
 %find_lang %{name}
 
@@ -117,7 +117,6 @@ make install DESTDIR=%{buildroot}
 %{python3_sitelib}/idjcmonitor.py
 %{_libdir}/idjc/
 %{_datadir}/applications/idjc.desktop
-%{_docdir}/%{name}-%{version}/
 %{_datadir}/idjc/
 %{_mandir}/man1/idjc-auto.1.gz
 %{_mandir}/man1/idjc-ls.1.gz
@@ -128,10 +127,14 @@ make install DESTDIR=%{buildroot}
 %{_mandir}/man1/idjc.1.gz
 %{_datadir}/pixmaps/idjc.png
 %{_datadir}/appdata/idjc.appdata.xml
+%{_docdir}/idjc-%{version}_development/
 %{python3_sitelib}/__pycache__/*.pyc
 
 
 %changelog
+
+* Sat Jan 22 2022 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.9.3-1
+- Updated to 0.9.3
 
 * Mon Feb 15 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.9.0-7
 - Updated to 0.9.0
