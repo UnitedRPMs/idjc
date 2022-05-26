@@ -17,12 +17,12 @@
 
 %global _with_restricted 0
 
-%global commit0 c4cd982881192d6143122a09616f3a3e4294b573
+%global commit0 54745bc2ae06e2ad5e013f79f75eac4874eec20e
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 Name:           idjc
-Version:        0.9.3
+Version:        0.9.4
 Release:        1%{?dist}
 Summary:        DJ application for streaming audio
 
@@ -34,7 +34,11 @@ Source0:        https://sourceforge.net/code-snapshots/git/i/id/idjc/code.git/id
 BuildRequires:  pygtk2-devel
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
+%if 0%{?fedora} >= 35
+BuildRequires:  pipewire-jack-audio-connection-kit-devel
+%else
 BuildRequires:  jack-audio-connection-kit-devel
+%endif
 BuildRequires:  libvorbis-devel
 BuildRequires:  libsamplerate-devel
 BuildRequires:  libsndfile-devel
@@ -59,7 +63,11 @@ Requires:       pygtk2
 Requires:       python3-dbus
 Requires:       python3-mutagen
 
-Requires:       pulseaudio-module-jack
+%if 0%{?fedora} >= 35
+Recommends:	pipewire-jack-audio-connection-kit
+%else
+Recommends:     pulseaudio-module-jack
+%endif
 Requires:       qjackctl
 Requires:       lame
 Requires:       lame-libs
@@ -125,13 +133,16 @@ sed -i "s|PYTHON=python|PYTHON=python%{python3_version}|g" py-compile
 %{_mandir}/man1/idjc-rm.1.gz
 %{_mandir}/man1/idjc-run.1.gz
 %{_mandir}/man1/idjc.1.gz
-%{_datadir}/pixmaps/idjc.png
+%{_datadir}/icons/hicolor/scalable/apps/idjc.svg
 %{_datadir}/appdata/idjc.appdata.xml
 %{_docdir}/idjc-%{version}_development/
 %{python3_sitelib}/__pycache__/*.pyc
 
 
 %changelog
+
+* Wed May 25 2022 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.9.4-1
+- Updated to 0.9.4
 
 * Sat Jan 22 2022 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.9.3-1
 - Updated to 0.9.3
